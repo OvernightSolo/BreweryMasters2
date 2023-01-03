@@ -1,4 +1,4 @@
-//HERE API LINK AND MAP CREATION//
+// HERE API LINK AND MAP CREATION//
 // Initialize the platform object
 var platform = new H.service.Platform({
   apikey: "hR1wLxiB5wagyEi3gKHn_WbRjPzzZ6B9Q_gyBKWAp6w",
@@ -6,7 +6,7 @@ var platform = new H.service.Platform({
 
 //Openweather API for latitude and longitude searching
 const geoAPI = {
-  key: "f8459d37bbe627c3ff7547e9a64d219d",
+  key: "620e0c436745e0d32b6d06368bb0fd5f",
   baseurl: "http://api.openweathermap.org/geo/1.0/direct?q=",
 };
 
@@ -80,11 +80,11 @@ document.querySelector("#searchBtn").addEventListener("click", function () {
 function searchRestore() {
   var savedSearch = JSON.parse(localStorage.getItem("savedSearch"));
   if (savedSearch !== null) {
-    var searchCity = document.querySelector('#city-search');
+    var searchCity = document.querySelector("#city-search");
     searchCity.value = savedSearch[0];
-    var searchZipCode = document.querySelector('#postal-search');
+    var searchZipCode = document.querySelector("#postal-search");
     searchZipCode.value = savedSearch[1];
-    var searchBrewType = document.querySelector('#brewery-type-search');
+    var searchBrewType = document.querySelector("#brewery-type-search");
     searchBrewType.value = savedSearch[2];
     // Temporarily disabled
     // var searchRadius = document.querySelector('#radius-search');
@@ -92,14 +92,14 @@ function searchRestore() {
   } else {
     return;
   }
-};
+}
 
 // added test function to search for city and brewery type
 function searchFunc(searchInput) {
   fetch(
     `https://api.openbrewerydb.org/breweries?by_city=${searchInput[0]}&by_type=${searchInput[2]}`
   )
-    .then((breweries) => {
+    .then(breweries => {
       return breweries.json();
     })
     .then(displayBrews);
@@ -118,121 +118,125 @@ function searchFunc(searchInput) {
 function displayBrews(breweries) {
   console.log(breweries.length);
 
-  if(breweries.length == 0){
+  if (breweries.length == 0) {
     //modal calls here for no results found please try again
     var nullObj = document.getElementById("nullPrompt");
     nullObj.classList.remove("hidden");
     modal.classList.add("is-active");
+  } else {
+    for (var i = 1; i < 4; i++) {
+      if (i === 1) {
+        a = Math.floor(Math.random() * (20 - 0) + 1);
+        if (breweries[a].name == null) {
+          i = 0;
+        } else {
+          card1.querySelector("h1").textContent = breweries[a].name;
+          // card1.querySelector("a").textContent = "View their website!";
+          // card1.querySelector("a").setAttribute("href", breweries[a].website_url);
+          if (breweries[a].website_url === null) {
+            card1.querySelector("a").textContent = "No Website Listed.";
+            card1.querySelector("a").style.cursor = "default";
+            card1.querySelector("a").style.color = "#363636";
+            card1.querySelector("a").style.pointerEvents = "none";
+          } else {
+            card1.querySelector("a").textContent = "View their website!";
+            card1.querySelector("a").style.cursor = "pointer";
+            card1.querySelector("a").style.color = "#485fc7";
+            card1.querySelector("a").style.pointerEvents = "initial";
+            card1.querySelector("a").setAttribute("target", "_blank");
+            card1
+              .querySelector("a")
+              .setAttribute("href", breweries[a].website_url);
+          }
+          if (breweries[a].street === null) {
+            card1.querySelector("h3").textContent = "No Address Listed.";
+          } else {
+            card1.querySelector("h3").textContent = breweries[a].street;
+          }
+          brewALat = breweries[a].latitude;
+          brewALon = breweries[a].longitude;
+          brewAname = breweries[a].name;
+        }
 
+        //insert lat and lons for marker API for the map
+      } else if (i === 2) {
+        b = Math.floor(Math.random() * (20 - 0) + 1);
+        if (breweries[b].name == null && b == a) {
+          i = 0;
+        } else {
+          card2.querySelector("h1").textContent = breweries[b].name;
+          // card2.querySelector("a").textContent = "View their website!";
+          // card2.querySelector("a").setAttribute("href", breweries[b].website_url);
+          if (breweries[b].website_url === null) {
+            card2.querySelector("a").textContent = "No Website Listed.";
+            card2.querySelector("a").style.cursor = "default";
+            card2.querySelector("a").style.color = "#363636";
+            card2.querySelector("a").style.pointerEvents = "none";
+          } else {
+            card2.querySelector("a").textContent = "View their website!";
+            card2.querySelector("a").style.cursor = "pointer";
+            card2.querySelector("a").style.color = "#485fc7";
+            card2.querySelector("a").style.pointerEvents = "initial";
+            card2.querySelector("a").setAttribute("target", "_blank");
+            card2
+              .querySelector("a")
+              .setAttribute("href", breweries[b].website_url);
+          }
+          if (breweries[b].street === null) {
+            card2.querySelector("h3").textContent = "No Address Listed.";
+          } else {
+            card2.querySelector("h3").textContent = breweries[b].street;
+          }
+          brewBLat = breweries[b].latitude;
+          brewBLon = breweries[b].longitude;
+          brewBname = breweries[b].name;
+        }
 
-  }else{
-  for (var i = 1; i < 4; i++) {
-    if (i === 1) {
-      a = Math.floor(Math.random() * (20 - 0) + 1);
-      if(breweries[a].name == null){
-        i = 0;
-      }else{
-      card1.querySelector("h1").textContent = breweries[a].name;
-      // card1.querySelector("a").textContent = "View their website!";
-      // card1.querySelector("a").setAttribute("href", breweries[a].website_url);
-      if (breweries[a].website_url === null) {
-        card1.querySelector("a").textContent = "No Website Listed.";
-        card1.querySelector("a").style.cursor = "default";
-        card1.querySelector("a").style.color = "#363636";
-        card1.querySelector("a").style.pointerEvents = "none";
-      } else {
-        card1.querySelector("a").textContent = "View their website!";
-        card1.querySelector("a").style.cursor = "pointer";
-        card1.querySelector("a").style.color = "#485fc7";
-        card1.querySelector("a").style.pointerEvents = "initial";
-        card1.querySelector("a").setAttribute('target', '_blank');
-        card1.querySelector("a").setAttribute("href", breweries[a].website_url);
-      };
-      if (breweries[a].street === null) {
-        card1.querySelector("h3").textContent = "No Address Listed.";
-      } else {
-        card1.querySelector("h3").textContent = breweries[a].street;
-      }
-      brewALat = breweries[a].latitude;
-      brewALon = breweries[a].longitude;
-      brewAname = breweries[a].name;
-      }
+        //insert lat and lons for marker API for the map
+      } else if (i === 3) {
+        c = Math.floor(Math.random() * (20 - 0) + 1);
+        if (breweries[c].name == null && c == b) {
+          i = 0;
+        } else {
+          card3.querySelector("h1").textContent = breweries[c].name;
+          // card3.querySelector("a").textContent = "View their website!";
+          // card3.querySelector("a").setAttribute("href", breweries[c].website_url);
+          if (breweries[c].website_url === null) {
+            card3.querySelector("a").textContent = "No Website Listed.";
+            card3.querySelector("a").style.cursor = "default";
+            card3.querySelector("a").style.color = "#363636";
+            card3.querySelector("a").style.pointerEvents = "none";
+          } else {
+            card3.querySelector("a").textContent = "View their website!";
+            card3.querySelector("a").style.cursor = "pointer";
+            card3.querySelector("a").style.color = "#485fc7";
+            card3.querySelector("a").style.pointerEvents = "initial";
+            card3.querySelector("a").setAttribute("target", "_blank");
+            card3
+              .querySelector("a")
+              .setAttribute("href", breweries[c].website_url);
+          }
+          if (breweries[c].street === null) {
+            card3.querySelector("h3").textContent = "No Address Listed.";
+          } else {
+            card3.querySelector("h3").textContent = breweries[c].street;
+          }
+          brewCLat = breweries[c].latitude;
+          brewCLon = breweries[c].longitude;
+          brewCname = breweries[c].name;
+        }
 
-      //insert lat and lons for marker API for the map
-    } else if (i === 2) {
-      b = Math.floor(Math.random() * (20 - 0) + 1);
-      if(breweries[b].name == null && b == a){
-        i = 0;
-      }else{
-      card2.querySelector("h1").textContent = breweries[b].name;
-      // card2.querySelector("a").textContent = "View their website!";
-      // card2.querySelector("a").setAttribute("href", breweries[b].website_url);
-      if (breweries[b].website_url === null) {
-        card2.querySelector("a").textContent = "No Website Listed.";
-        card2.querySelector("a").style.cursor = "default";
-        card2.querySelector("a").style.color = "#363636";
-        card2.querySelector("a").style.pointerEvents = "none";
-      } else {
-        card2.querySelector("a").textContent = "View their website!";
-        card2.querySelector("a").style.cursor = "pointer";
-        card2.querySelector("a").style.color = "#485fc7";
-        card2.querySelector("a").style.pointerEvents = "initial";
-        card2.querySelector("a").setAttribute('target', '_blank');
-        card2.querySelector("a").setAttribute("href", breweries[b].website_url);
-      };
-      if (breweries[b].street === null) {
-        card2.querySelector("h3").textContent = "No Address Listed.";
-      } else {
-        card2.querySelector("h3").textContent = breweries[b].street;
+        //insert lat and lons for marker API for the map
       }
-      brewBLat = breweries[b].latitude;
-      brewBLon = breweries[b].longitude;
-      brewBname = breweries[b].name;
-      }
-
-      //insert lat and lons for marker API for the map
-    } else if (i === 3) {
-      c = Math.floor(Math.random() * (20 - 0) + 1);
-      if(breweries[c].name == null && c == b){
-        i = 0;
-      }else{
-      card3.querySelector("h1").textContent = breweries[c].name;
-      // card3.querySelector("a").textContent = "View their website!";
-      // card3.querySelector("a").setAttribute("href", breweries[c].website_url);
-      if (breweries[c].website_url === null) {
-        card3.querySelector("a").textContent = "No Website Listed.";
-        card3.querySelector("a").style.cursor = "default";
-        card3.querySelector("a").style.color = "#363636";
-        card3.querySelector("a").style.pointerEvents = "none";
-      } else {
-        card3.querySelector("a").textContent = "View their website!";
-        card3.querySelector("a").style.cursor = "pointer";
-        card3.querySelector("a").style.color = "#485fc7";
-        card3.querySelector("a").style.pointerEvents = "initial";
-        card3.querySelector("a").setAttribute('target', '_blank');
-        card3.querySelector("a").setAttribute("href", breweries[c].website_url);
-      };
-      if (breweries[c].street === null) {
-        card3.querySelector("h3").textContent = "No Address Listed.";
-      } else {
-        card3.querySelector("h3").textContent = breweries[c].street;
-      }
-      brewCLat = breweries[c].latitude;
-      brewCLon = breweries[c].longitude;
-      brewCname = breweries[c].name;
-      }
-      
-      
-      //insert lat and lons for marker API for the map
     }
-  }}
+  }
 }
 
 //Converting City search on webpage to coordinates + save to local storage
 function findGeo(city) {
   console.log(geoAPI.baseurl + city + "," + "&appid=" + geoAPI.key);
   fetch(geoAPI.baseurl + city + "," + "&appid=" + geoAPI.key)
-    .then((coordinates) => {
+    .then(coordinates => {
       console.log(coordinates);
       return coordinates.json();
     })
@@ -248,17 +252,13 @@ function linkCoord(coordinates) {
   createMap(cityLon, cityLat);
 }
 
-
 /* HERE API FUNCTIONS */
 function createMap(cityLon, cityLat) {
-
-  if(mapisLive == 1){
+  if (mapisLive == 1) {
     const mapElement = document.getElementById("mapContainer");
     mapElement.remove();
     mapisLive = 0;
   }
-
-
 
   //Create the div for the map
   var obj = document.getElementById("mapSpot");
@@ -282,27 +282,33 @@ function createMap(cityLon, cityLat) {
 
   console.log("Lat and lons for Brewery A:" + brewALat + "," + brewALon);
   var ui = H.ui.UI.createDefault(map, defaultLayers);
-    // Create an info bubble object at a specific geographic location:
-  var bubbleA = new H.ui.InfoBubble({ lng: brewALon, lat: brewALat }, {
-    content: brewAname
-  });
+  // Create an info bubble object at a specific geographic location:
+  var bubbleA = new H.ui.InfoBubble(
+    { lng: brewALon, lat: brewALat },
+    {
+      content: brewAname,
+    }
+  );
 
-  var bubbleB = new H.ui.InfoBubble({ lng: brewBLon, lat: brewBLat }, {
-    content: brewBname
-  });
+  var bubbleB = new H.ui.InfoBubble(
+    { lng: brewBLon, lat: brewBLat },
+    {
+      content: brewBname,
+    }
+  );
 
-  var bubbleC = new H.ui.InfoBubble({ lng: brewCLon, lat: brewCLat }, {
-    content: brewCname
-  });
+  var bubbleC = new H.ui.InfoBubble(
+    { lng: brewCLon, lat: brewCLat },
+    {
+      content: brewCname,
+    }
+  );
 
-    // Add info bubble to the UI:
+  // Add info bubble to the UI:
   ui.addBubble(bubbleA);
   ui.addBubble(bubbleB);
   ui.addBubble(bubbleC);
-
 }
-
-
 
 // random breweries showing on page load.
 function randomBreweries() {
@@ -311,8 +317,8 @@ function randomBreweries() {
       fetch("https://api.openbrewerydb.org/breweries/random", {
         cache: "no-cache",
       })
-        .then((response) => response.json())
-        .then((dataResponse) => {
+        .then(response => response.json())
+        .then(dataResponse => {
           console.log(dataResponse);
           card1.querySelector("h1").textContent = dataResponse[0].name;
           // card1.querySelector("a").textContent = "View their website!";
@@ -327,21 +333,23 @@ function randomBreweries() {
             card1.querySelector("a").style.cursor = "pointer";
             card1.querySelector("a").style.color = "#485fc7";
             card1.querySelector("a").style.pointerEvents = "initial";
-            card1.querySelector("a").setAttribute('target', '_blank');
-            card1.querySelector("a").setAttribute("href", dataResponse[0].website_url);
-          };
+            card1.querySelector("a").setAttribute("target", "_blank");
+            card1
+              .querySelector("a")
+              .setAttribute("href", dataResponse[0].website_url);
+          }
           if (dataResponse[0].street === null) {
             card1.querySelector("h3").textContent = "No Address Listed.";
           } else {
             card1.querySelector("h3").textContent = dataResponse[0].street;
-          };
+          }
         });
     } else if (i === 2) {
       fetch("https://api.openbrewerydb.org/breweries/random", {
         cache: "no-cache",
       })
-        .then((response) => response.json())
-        .then((dataResponse) => {
+        .then(response => response.json())
+        .then(dataResponse => {
           console.log(dataResponse);
           card2.querySelector("h1").textContent = dataResponse[0].name;
           // card2.querySelector("a").textContent = "View their website!";
@@ -356,21 +364,23 @@ function randomBreweries() {
             card2.querySelector("a").style.cursor = "pointer";
             card2.querySelector("a").style.color = "#485fc7";
             card2.querySelector("a").style.pointerEvents = "initial";
-            card2.querySelector("a").setAttribute('target', '_blank');
-            card2.querySelector("a").setAttribute("href", dataResponse[0].website_url);
-          };
+            card2.querySelector("a").setAttribute("target", "_blank");
+            card2
+              .querySelector("a")
+              .setAttribute("href", dataResponse[0].website_url);
+          }
           if (dataResponse[0].street === null) {
             card2.querySelector("h3").textContent = "No Address Listed.";
           } else {
             card2.querySelector("h3").textContent = dataResponse[0].street;
-          };
+          }
         });
     } else if (i === 3) {
       fetch("https://api.openbrewerydb.org/breweries/random", {
         cache: "no-cache",
       })
-        .then((response) => response.json())
-        .then((dataResponse) => {
+        .then(response => response.json())
+        .then(dataResponse => {
           console.log(dataResponse);
           card3.querySelector("h1").textContent = dataResponse[0].name;
           if (dataResponse[0].website_url === null) {
@@ -383,14 +393,16 @@ function randomBreweries() {
             card3.querySelector("a").style.cursor = "pointer";
             card3.querySelector("a").style.color = "#485fc7";
             card3.querySelector("a").style.pointerEvents = "initial";
-            card3.querySelector("a").setAttribute('target', '_blank');
-            card3.querySelector("a").setAttribute("href", dataResponse[0].website_url);
-          };
+            card3.querySelector("a").setAttribute("target", "_blank");
+            card3
+              .querySelector("a")
+              .setAttribute("href", dataResponse[0].website_url);
+          }
           if (dataResponse[0].street === null) {
             card3.querySelector("h3").textContent = "No Address Listed.";
           } else {
             card3.querySelector("h3").textContent = dataResponse[0].street;
-          };
+          }
         });
     }
   }
