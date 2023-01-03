@@ -2,50 +2,51 @@
 
 ## Table of Contents
 
-  - [User Story](#user-story)
-  - [Expected Behavior](#expected-behavior)
-  - [Usage](#usage)
-  - [Credits](#credits)
-  - [License](#license)
+- [User Story](#user-story)
+- [Expected Behavior](#expected-behavior)
+- [Usage](#usage)
+- [Credits](#credits)
+- [License](#license)
 
-***
+---
 
-##  User Story
+## User Story
+
 - As a user I want a website to give me recommendations on breweries
-- I want to be able to seach my city or zip to get breweries 
-- I want to be able to filter by type of brewery 
+- I want to be able to seach my city or zip to get breweries
+- I want to be able to filter by type of brewery
 - I want three locations given to me
-- I want information about the breweries that are recommended to me 
+- I want information about the breweries that are recommended to me
 - So that I can find new breweries in my area
 
-***
+---
 
-## Expected Behavior 
+## Expected Behavior
 
-Product gives users three brewery locations based on users searched criteria. 
+Product gives users three brewery locations based on users searched criteria.
 
-***
+---
 
 ## Usage
 
-Here is what the website looks like. If you want to preview it click [HERE!](https://teeoni.github.io/SuperTeamRepo/)
+Here is what the website looks like. If you want to preview it click [HERE!](https://overnightsolo.github.io/BreweryMasters2/)
 
-![Website Preview](./assets/img/websitePreview.png)
+![Website Preview](./assets/img/Screenshot_20230103_033059.png)
 
-***
+---
 
 ## Credits
 
 Each contributers assigned work with a link to their github profiles.
 
 - [Byrcen](https://github.com/BrycenEhrich) : HTML
-- [Jacob](https://github.com/jacobschwal) : HTML  
-- [Charles](https://github.com/Brevenn) : CSS 
+- [Jacob](https://github.com/jacobschwal) : HTML
+- [Charles](https://github.com/Brevenn) : CSS
 - [Scott](https://github.com/OvernightSolo) : CSS
-- [Parker](https://github.com/ParksFG) : JS 
-- [Tony](https://github.com/teeoni) : JS 
+- [Parker](https://github.com/ParksFG) : JS
+- [Tony](https://github.com/teeoni) : JS
 
-**
+\*\*
 
 ## License
 
