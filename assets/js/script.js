@@ -6,7 +6,7 @@ var platform = new H.service.Platform({
 
 //Openweather API for latitude and longitude searching
 const geoAPI = {
-  key: "620e0c436745e0d32b6d06368bb0fd5f",
+  key: "f8459d37bbe627c3ff7547e9a64d219d",
   baseurl: "http://api.openweathermap.org/geo/1.0/direct?q=",
 };
 
@@ -104,16 +104,6 @@ function searchFunc(searchInput) {
     })
     .then(displayBrews);
 }
-
-//to test for randomBrewery but turns out it just pumps out celis
-// function randomeBrewTest() {
-//   fetch("https://api.openbrewerydb.org/breweries/random")
-//     .then(brewery =>{
-//       return brewery.json();
-
-//     }).then(displayTest);
-
-// }
 
 function displayBrews(breweries) {
   console.log(breweries.length);
