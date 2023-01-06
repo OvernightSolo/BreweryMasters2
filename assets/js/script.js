@@ -155,8 +155,6 @@ function displayBrews(breweries) {
           i = 0;
         } else {
           card2.querySelector("h1").textContent = breweries[b].name;
-          // card2.querySelector("a").textContent = "View their website!";
-          // card2.querySelector("a").setAttribute("href", breweries[b].website_url);
           if (breweries[b].website_url === null) {
             card2.querySelector("a").textContent = "No Website Listed.";
             card2.querySelector("a").style.cursor = "default";
@@ -189,8 +187,6 @@ function displayBrews(breweries) {
           i = 0;
         } else {
           card3.querySelector("h1").textContent = breweries[c].name;
-          // card3.querySelector("a").textContent = "View their website!";
-          // card3.querySelector("a").setAttribute("href", breweries[c].website_url);
           if (breweries[c].website_url === null) {
             card3.querySelector("a").textContent = "No Website Listed.";
             card3.querySelector("a").style.cursor = "default";
